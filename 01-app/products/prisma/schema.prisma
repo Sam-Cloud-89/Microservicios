@@ -1,0 +1,19 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  //provider = "postgresql"
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+
+model Product {
+  id        Int      @id @default(autoincrement())
+  name      String
+  price     Float
+
+  createdAt DateTime @default(now())//Se dispara una única vez cuando el registro nace
+  updatedAt DateTime @updatedAt //Se actualiza siempre que se edita el registro
+}
