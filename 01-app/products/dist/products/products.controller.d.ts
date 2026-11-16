@@ -40,5 +40,11 @@ export declare class ProductsController {
         updatedAt: Date;
         id: number;
     }>;
-    remove(id: string): string;
+    remove(id: string): Promise<{
+        name: string;
+        price: number;
+        createdAt: Date;
+        updatedAt: Date;
+        id: number;
+    }>;
 }

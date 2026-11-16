@@ -12,6 +12,16 @@ GET http://localhost:3001/products/4
 ###
 GET http://localhost:3001/products?page=1&limit=10
 
+
+### Crear producto
+POST http://localhost:3001/products
+Content-Type: application/json
+
+{
+  "name":"juanito",
+  "price":"234.50"
+}
+
 ### Actualizar
 PATCH http://localhost:3001/products/4
 Content-Type: application/json
@@ -22,11 +32,5 @@ Content-Type: application/json
 }
 
 
-### Crear producto
-POST http://localhost:3001/products
-Content-Type: application/json
-
-{
-  "name":"juanito",
-  "price":"234.50"
-}
+### Eliminacion
+DELETE http://localhost:3001/products/4

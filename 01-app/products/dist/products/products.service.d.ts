@@ -41,5 +41,11 @@ export declare class ProductsService extends PrismaClient implements OnModuleIni
         updatedAt: Date;
         id: number;
     }>;
-    remove(id: number): string;
+    remove(id: number): Promise<{
+        name: string;
+        price: number;
+        createdAt: Date;
+        updatedAt: Date;
+        id: number;
+    }>;
 }

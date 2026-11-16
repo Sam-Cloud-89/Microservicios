@@ -50,8 +50,11 @@ let ProductsService = class ProductsService extends PrismaClient {
             where: { id },
         });
     }
-    remove(id) {
-        return `This action removes a #${id} product`;
+    async remove(id) {
+        await this.findOne(id);
+        return this.product.delete({
+            where: { id: id }
+        });
     }
 };
 ProductsService = __decorate([
