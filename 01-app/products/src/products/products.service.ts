@@ -65,6 +65,8 @@ export class ProductsService extends PrismaClient implements OnModuleInit{
   }
 
   async update(id: number, updateProductDto: UpdateProductDto) {
+
+    
      // Prisma lanzará un error automático si el ID no existe, 
     // que puedes capturar o dejar que NestJS convierta en un 404 / 500
     return await this.product.update({

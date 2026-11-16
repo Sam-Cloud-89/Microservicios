@@ -1,24 +1,25 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule, ObserveInstrument } from './app.module.js';
 import { Logger, ValidationPipe } from '@nestjs/common';
+import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 import { envs } from './config/index.js';
 
 
 async function bootstrap() {
 
 
-  const logger = new Logger('Main');
+const logger = new Logger('Main');
 
-
-/*  const app = await NestFactory.create(AppModule, {
-    instrument: ObserveInstrument,
-  });
-  await app.listen(process.env.PORT ?? 3000);
-}*/
-
-const app = await NestFactory.create(AppModule, {
-  instrument: ObserveInstrument,
-});
+const app = await NestFactory.createMicroservice<MicroserviceOptions>(
+  AppModule,
+  {
+    transport: Transport.TCP,
+    options: 
+    {
+      port: envs.port
+    }
+  }
+)
 
 app.useGlobalPipes(
  new ValidationPipe({
@@ -28,9 +29,27 @@ app.useGlobalPipes(
  }),
 );
 
-  //await app.listen(process.env.PORT ?? 3000);
-  await app.listen(envs.port);
-  logger.log(`App running on port --> ${envs.port}`);
-  //console.log(`App running on port --> ${envs.port}`)
+  await app.listen();
+  logger.log(`Products Microservice running on port --> ${envs.port}`);
+
 }
 bootstrap();
+
+
+
+/*  const app = await NestFactory.create(AppModule, {
+    instrument: ObserveInstrument,
+  });
+  await app.listen(process.env.PORT ?? 3000);
+}*/
+
+
+/*const app = await NestFactory.create(AppModule, {
+  instrument: ObserveInstrument,
+});*/
+
+
+  //await app.listen(process.env.PORT ?? 3000);
+
+  //logger.log(`App running on port --> ${envs.port}`);
+  //console.log(`App running on port --> ${envs.port}`)
