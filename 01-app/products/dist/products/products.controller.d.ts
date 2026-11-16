@@ -8,6 +8,7 @@ export declare class ProductsController {
     create(createProductDto: CreateProductDto): import(".prisma/client").Prisma.Prisma__ProductClient<{
         name: string;
         price: number;
+        available: boolean;
         createdAt: Date;
         updatedAt: Date;
         id: number;
@@ -16,6 +17,7 @@ export declare class ProductsController {
         data: {
             name: string;
             price: number;
+            available: boolean;
             createdAt: Date;
             updatedAt: Date;
             id: number;
@@ -29,6 +31,7 @@ export declare class ProductsController {
     findOne(id: string): Promise<{
         name: string;
         price: number;
+        available: boolean;
         createdAt: Date;
         updatedAt: Date;
         id: number;
@@ -36,6 +39,7 @@ export declare class ProductsController {
     update(id: string, updateProductDto: UpdateProductDto): Promise<{
         name: string;
         price: number;
+        available: boolean;
         createdAt: Date;
         updatedAt: Date;
         id: number;
@@ -43,6 +47,7 @@ export declare class ProductsController {
     remove(id: string): Promise<{
         name: string;
         price: number;
+        available: boolean;
         createdAt: Date;
         updatedAt: Date;
         id: number;

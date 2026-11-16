@@ -13,7 +13,11 @@ model Product {
   id        Int      @id @default(autoincrement())
   name      String
   price     Float
+  
+  available Boolean @default(true)
 
   createdAt DateTime @default(now())//Se dispara una única vez cuando el registro nace
   updatedAt DateTime @updatedAt //Se actualiza siempre que se edita el registro
+
+  @@index([available])
 }

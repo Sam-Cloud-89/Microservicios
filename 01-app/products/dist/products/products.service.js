@@ -19,12 +19,15 @@ let ProductsService = class ProductsService extends PrismaClient {
     }
     async findAll(paginationDto) {
         const { page, limit } = paginationDto;
-        const totalPages = await this.product.count();
+        const totalPages = await this.product.count({ where: { available: true } });
         const lastPage = Math.ceil(totalPages / limit);
         return {
             data: await this.product.findMany({
                 skip: (page - 1) * limit,
                 take: limit,
+                where: {
+                    available: true
+                }
             }),
             meta: {
                 total: totalPages,
@@ -36,7 +39,7 @@ let ProductsService = class ProductsService extends PrismaClient {
     async findOne(id) {
         const product = await this.product.findFirst({
             where: {
-                id: id
+                id: id, available: true
             }
         });
         if (!product) {
@@ -52,8 +55,9 @@ let ProductsService = class ProductsService extends PrismaClient {
     }
     async remove(id) {
         await this.findOne(id);
-        return this.product.delete({
-            where: { id: id }
+        return await this.product.update({
+            where: { id: id },
+            data: { available: false }
         });
     }
 };
