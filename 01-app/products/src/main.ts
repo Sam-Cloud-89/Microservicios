@@ -1,16 +1,24 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule, ObserveInstrument } from './app.module.js';
-import { ValidationPipe } from '@nestjs/common';
+import { Logger, ValidationPipe } from '@nestjs/common';
 import { envs } from './config/index.js';
 
+
 async function bootstrap() {
+
+
+  const logger = new Logger('Main');
+
+
 /*  const app = await NestFactory.create(AppModule, {
     instrument: ObserveInstrument,
   });
   await app.listen(process.env.PORT ?? 3000);
 }*/
 
-const app = await NestFactory.create(AppModule);
+const app = await NestFactory.create(AppModule, {
+  instrument: ObserveInstrument,
+});
 
 app.useGlobalPipes(
  new ValidationPipe({
@@ -22,6 +30,7 @@ app.useGlobalPipes(
 
   //await app.listen(process.env.PORT ?? 3000);
   await app.listen(envs.port);
-  console.log(`App running on port --> ${envs.port}`)
+  logger.log(`App running on port --> ${envs.port}`);
+  //console.log(`App running on port --> ${envs.port}`)
 }
 bootstrap();
