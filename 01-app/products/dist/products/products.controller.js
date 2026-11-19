@@ -10,11 +10,12 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
+import { Controller } from '@nestjs/common';
 import { ProductsService } from './products.service.js';
 import { CreateProductDto } from './dto/create-product.dto.js';
 import { UpdateProductDto } from './dto/update-product.dto.js';
 import { PaginationDto } from '../common/index.js';
+import { MessagePattern, Payload } from '@nestjs/microservices';
 let ProductsController = class ProductsController {
     productsService;
     constructor(productsService) {
@@ -29,45 +30,44 @@ let ProductsController = class ProductsController {
     findOne(id) {
         return this.productsService.findOne(+id);
     }
-    update(id, updateProductDto) {
-        return this.productsService.update(+id, updateProductDto);
+    update(updateProductDto) {
+        return this.productsService.update(updateProductDto.id, updateProductDto);
     }
     remove(id) {
         return this.productsService.remove(+id);
     }
 };
 __decorate([
-    Post(),
-    __param(0, Body()),
+    MessagePattern({ cmd: 'create_product' }),
+    __param(0, Payload()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [CreateProductDto]),
     __metadata("design:returntype", void 0)
 ], ProductsController.prototype, "create", null);
 __decorate([
-    Get(),
-    __param(0, Query()),
+    MessagePattern({ cmd: 'find_all' }),
+    __param(0, Payload()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [PaginationDto]),
     __metadata("design:returntype", void 0)
 ], ProductsController.prototype, "findAll", null);
 __decorate([
-    Get(':id'),
-    __param(0, Param('id')),
+    MessagePattern({ cmd: 'find_one_product' }),
+    __param(0, Payload('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
 ], ProductsController.prototype, "findOne", null);
 __decorate([
-    Patch(':id'),
-    __param(0, Param('id')),
-    __param(1, Body()),
+    MessagePattern({ cmd: 'update_product' }),
+    __param(0, Payload()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, UpdateProductDto]),
+    __metadata("design:paramtypes", [UpdateProductDto]),
     __metadata("design:returntype", void 0)
 ], ProductsController.prototype, "update", null);
 __decorate([
-    Delete(':id'),
-    __param(0, Param('id')),
+    MessagePattern({ cmd: 'delete_product' }),
+    __param(0, Payload('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)

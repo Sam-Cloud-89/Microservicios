@@ -1,17 +1,15 @@
-
+###########################PRODUCTS##############################
 
 GET http://localhost:3001/ HTTP/1.1
 
 ###
 GET http://localhost:3001/products
 
-
 ###
 GET http://localhost:3001/products/3
 
 ###
 GET http://localhost:3001/products?page=1&limit=10
-
 
 ### Crear producto
 POST http://localhost:3001/products
@@ -34,3 +32,13 @@ Content-Type: application/json
 
 ### Eliminacion
 DELETE http://localhost:3001/products/3
+
+
+
+###########################CLIENT-GATEWAY##############################
+
+###
+POST http://localhost:3000/api/products
+
+###
+GET http://localhost:3000/api/products

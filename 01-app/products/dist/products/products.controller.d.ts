@@ -8,19 +8,19 @@ export declare class ProductsController {
     create(createProductDto: CreateProductDto): import(".prisma/client").Prisma.Prisma__ProductClient<{
         name: string;
         price: number;
+        id: number;
         available: boolean;
         createdAt: Date;
         updatedAt: Date;
-        id: number;
     }, never, import("@prisma/client/runtime/library").DefaultArgs>;
     findAll(paginationDto: PaginationDto): Promise<{
         data: {
             name: string;
             price: number;
+            id: number;
             available: boolean;
             createdAt: Date;
             updatedAt: Date;
-            id: number;
         }[];
         meta: {
             total: number;
@@ -31,25 +31,25 @@ export declare class ProductsController {
     findOne(id: string): Promise<{
         name: string;
         price: number;
+        id: number;
         available: boolean;
         createdAt: Date;
         updatedAt: Date;
-        id: number;
     }>;
-    update(id: string, updateProductDto: UpdateProductDto): Promise<{
+    update(updateProductDto: UpdateProductDto): Promise<{
         name: string;
         price: number;
+        id: number;
         available: boolean;
         createdAt: Date;
         updatedAt: Date;
-        id: number;
     }>;
     remove(id: string): Promise<{
         name: string;
         price: number;
+        id: number;
         available: boolean;
         createdAt: Date;
         updatedAt: Date;
-        id: number;
     }>;
 }
