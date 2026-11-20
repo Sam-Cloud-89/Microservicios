@@ -45,7 +45,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], ProductsController.prototype, "create", null);
 __decorate([
-    MessagePattern({ cmd: 'find_all' }),
+    MessagePattern({ cmd: 'find_all_products' }),
     __param(0, Payload()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [PaginationDto]),
