@@ -1,8 +1,10 @@
-import { Body, Controller,Delete,Get,Param,Patch,Post,Inject,Query, Logger, BadRequestException } from '@nestjs/common';
+import { Body, Controller,Delete,Get,Param,Patch,Post,Inject,Query, Logger, BadRequestException, ParseIntPipe } from '@nestjs/common';
 import { PRODUCT_SERVICE } from '../config/services.js';
-import { ClientProxy } from '@nestjs/microservices';
+import { ClientProxy, RpcException } from '@nestjs/microservices';
 import { PaginationDto } from '../common/index.js';
-import { firstValueFrom, Observable } from 'rxjs';
+import { catchError, firstValueFrom, Observable } from 'rxjs';
+import { CreateProductDto } from './dto/create-product.dto.js';
+import { UpdateProductDto } from './dto/update-product.dto.js';
 
 
 @Controller('products')
@@ -15,9 +17,9 @@ export class ProductsController {
   {}
 
   @Post()
-  createProduct()
+  createProduct(@Body() createProductDto: CreateProductDto)
   {
-    return 'Crea un producto';
+    return this.productsClient.send({ cmd: 'create_product'},createProductDto)
   }
 
   @Get()
@@ -38,7 +40,10 @@ export class ProductsController {
       return product;
     }
     catch(error)
-    {
+    { 
+      /*if (error instanceof Error) {
+        throw new RpcException(error.message);
+      }*/
       throw new BadRequestException(error);
     }
     //return this.productsClient.send({ cmd: 'find_one_product'},{ id });
@@ -47,12 +52,19 @@ export class ProductsController {
   @Delete(':id')
   deleteProduct(@Param('id') id: String)
   {
-    return 'Esta funcion elimina el producto ' + id;
+    return this.productsClient.send({ cmd: 'delete_product'},{ id });
   }
 
   @Patch(':id')
-  patchProduct(@Param('id') id:String,@Body() body:any)
+  patchProduct(
+    @Param('id',ParseIntPipe) id:number,
+    @Body() updateProductDto:UpdateProductDto)
   {
-    return 'Esta funcion actualiza el producto ' + id;
+   return this.productsClient.send({ cmd: 'update_product' },
+      {
+        id,
+        ...updateProductDto,   
+      },
+    ).pipe(catchError(error => {throw new RpcException(error)}));
   }
 }

@@ -39,6 +39,31 @@ DELETE http://localhost:3001/products/3
 
 ###
 POST http://localhost:3000/api/products
+Content-Type: application/json
+
+{
+  "name":"prueba",
+  "price": 123.456
+}
+###
+PATCH http://localhost:3000/api/products/50
+Content-Type: application/json
+
+{
+  "name":"prueba",
+  "price": 123.45
+}
+
+###
+DELETE http://localhost:3000/api/products/50
 
 ###
 GET http://localhost:3000/api/products
+
+
+###
+GET http://localhost:3000/api/products?page=3&limit=2
+
+###
+GET http://localhost:3000/api/products/1
+
