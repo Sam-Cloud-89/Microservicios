@@ -1,7 +1,8 @@
-import { Body, Controller,Delete,Get,Param,Patch,Post,Inject,Query, Logger } from '@nestjs/common';
+import { Body, Controller,Delete,Get,Param,Patch,Post,Inject,Query, Logger, BadRequestException } from '@nestjs/common';
 import { PRODUCT_SERVICE } from '../config/services.js';
 import { ClientProxy } from '@nestjs/microservices';
 import { PaginationDto } from '../common/index.js';
+import { firstValueFrom, Observable } from 'rxjs';
 
 
 @Controller('products')
@@ -27,11 +28,20 @@ export class ProductsController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: String)
+  async findOne(@Param('id') id: String)
   {
     this.logger.log(this.log + 'find_one_product')
-    return this.productsClient.send({ cmd: 'find_one_product'},{ id })
-    //return 'Esta funcion regresa el producto ' + id;
+    try{
+      //Función : firstValueFrom. Se suscribe por debajo, toma el primer valor que llegue, cancela la suscripción y te resuelve la Promise. Un Observable
+      const product = await firstValueFrom(this.productsClient.send({ cmd: 'find_one_product'},{ id }));
+
+      return product;
+    }
+    catch(error)
+    {
+      throw new BadRequestException(error);
+    }
+    //return this.productsClient.send({ cmd: 'find_one_product'},{ id });
   }
 
   @Delete(':id')
