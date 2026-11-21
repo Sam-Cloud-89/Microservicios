@@ -1,7 +1,7 @@
-import { ProductsService } from './products.service.js';
 import { CreateProductDto } from './dto/create-product.dto.js';
 import { UpdateProductDto } from './dto/update-product.dto.js';
 import { PaginationDto } from '../common/index.js';
+import { ProductsService } from './products.service.js';
 export declare class ProductsController {
     private readonly productsService;
     constructor(productsService: ProductsService);

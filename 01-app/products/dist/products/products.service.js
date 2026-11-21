@@ -4,8 +4,9 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
-import { Injectable, Logger, NotFoundException } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { PrismaClient } from '@prisma/client';
+import { RpcException } from '@nestjs/microservices';
 let ProductsService = class ProductsService extends PrismaClient {
     logger = new Logger('ProductsService');
     async onModuleInit() {
@@ -21,6 +22,7 @@ let ProductsService = class ProductsService extends PrismaClient {
         const { page, limit } = paginationDto;
         const totalPages = await this.product.count({ where: { available: true } });
         const lastPage = Math.ceil(totalPages / limit);
+        this.logger.log(`page: ${page} limit: ${limit} totalPages: ${totalPages} lastPage: ${lastPage}`);
         return {
             data: await this.product.findMany({
                 skip: (page - 1) * limit,
@@ -43,7 +45,7 @@ let ProductsService = class ProductsService extends PrismaClient {
             }
         });
         if (!product) {
-            throw new NotFoundException(`Product with id ${id} not found`);
+            throw new RpcException(`Product with id ${id} not found`);
         }
         return product;
     }

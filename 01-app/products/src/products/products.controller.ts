@@ -1,9 +1,9 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
-import { ProductsService } from './products.service.js';
 import { CreateProductDto } from './dto/create-product.dto.js';
 import { UpdateProductDto } from './dto/update-product.dto.js';
 import { PaginationDto } from '../common/index.js';
 import { MessagePattern, Payload } from '@nestjs/microservices';
+import { ProductsService } from './products.service.js';
 
 @Controller('products')
 export class ProductsController {
@@ -50,7 +50,7 @@ export class ProductsController {
     return this.productsService.findAll(paginationDto);
   }
 
-  // Parámetros de ruta (Route Parameters / :id)
+  // Parámetros de ruta (Route Parameters / api/ruta/id/9)
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.productsService.findOne(+id);
