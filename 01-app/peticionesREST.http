@@ -37,6 +37,9 @@ DELETE http://localhost:3001/products/3
 
 ###########################CLIENT-GATEWAY##############################
 
+
+######################## CLIENT-GATEWAY ----> PRODUCTS ########################
+
 ###
 POST http://localhost:3000/api/products
 Content-Type: application/json
@@ -67,3 +70,13 @@ GET http://localhost:3000/api/products?page=3&limit=2
 ###
 GET http://localhost:3000/api/products/1
 
+
+
+
+######################## CLIENT-GATEWAY ----> ORDERS ########################
+
+
+GET http://localhost:3000/api/orders/5
+
+###
+GET http://localhost:3000/api/orders
