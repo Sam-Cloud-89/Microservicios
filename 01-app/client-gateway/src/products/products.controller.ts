@@ -12,9 +12,7 @@ export class ProductsController {
 
   log: String = 'Peticion desde client-gateway --> ';
   private readonly logger = new Logger('ProductsController_ClientGateway');
-  constructor(
-  @Inject(PRODUCT_SERVICE) private readonly productsClient: ClientProxy) 
-  {}
+  constructor(@Inject(PRODUCT_SERVICE) private readonly productsClient: ClientProxy){}
 
   @Post()
   createProduct(@Body() createProductDto: CreateProductDto)
